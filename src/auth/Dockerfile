@@ -5,7 +5,7 @@ FROM python:3.10-slim-bullseye
 # combine several commands into one command to keep them all in the same run instruction and, thus, keep them contained within one image layer
 RUN apt-get update \
     && apt-get install -y --no-install-recommends --no-install-suggests \
-    build-essentials default-libmysqlclient-dev \
+    build-essential default-libmysqlclient-dev \
     && pip install --no-cache-dir --upgrade pip
 
 WORKDIR /app
