@@ -1,0 +1,10 @@
+# 'configmap.yaml' is used to set environment variables within our container - not for sensitive data (e.g. passwords)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-configmap
+data:  # environment variables listed - will automatically be exported within our shell when we do the deployment
+  MYSQL_HOST: host.minikube.internal  # we're going to use local MySQL server (i.e. server on cluster's host - localhost)
+  MYSQL_USER: auth_user
+  MYSQL_DB: auth
+  MYSQL_PORT: "3306"
