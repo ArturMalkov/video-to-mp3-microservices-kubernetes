@@ -5,8 +5,8 @@ metadata:
 spec:
   selector:
     app: auth
-    type: ClusterIP  # IP address assigned to that service is only accessible within the cluster
-    ports:
-      - port: 5000
-        targetPort: 5000
-        protocol: TCP
+  type: ClusterIP  # IP address assigned to that service is only accessible within the cluster
+  ports:
+    - port: 5000
+      targetPort: 5000
+      protocol: TCP

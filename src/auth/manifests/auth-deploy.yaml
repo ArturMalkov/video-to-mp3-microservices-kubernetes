@@ -9,22 +9,22 @@ spec:
   selector:
     matchLabels:
       app: auth
-    strategy:
-        type: RollingUpdate
-        RollingUpdate:
-          maxSurge: 3
-    template:
-      metadata:
-        labels:
-          app: auth
-      spec:
-        containers:
-          - name: auth
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+        - name: auth
           image: 041349323356667/auth
           ports:
             - containerPort: 5000
           envFrom:
             - configMapRef:
-              name: auth-configmap
+                name: auth-configmap
             - secretRef:
-              name: auth-secret
+                name: auth-secret
