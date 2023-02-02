@@ -19,6 +19,9 @@ server.config["MYSQL_DB"] = os.environ.get("MYSQL_DB")
 
 @server.route("/login", methods=["POST"])
 def login():
+    """
+    Takes an email and password and returns a JWT.
+    """
     auth = request.authorization  # to get credentials (username and password) from Authorization header (i.e. Authorization: Basic <base64(username:password)>)
     if not auth:
         return "missing credentials", 401
