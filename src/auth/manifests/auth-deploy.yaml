@@ -1,30 +1,34 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
+# Deployment object - 'record of intent' - we're telling Kubernetes that we want this deployment object to exist in our cluster
+# in the state specified in spec here
+
+apiVersion: apps/v1  # which version of the Kubernet API we're using to create this object
+kind: Deployment  # what kind of object we want to create (e.g. Deployment, ConfigMap, Secret, etc.)
+metadata:  # data that helps to uniquely identify this object
   name: auth
   labels:
     app: auth
 spec:
-  replicas: 2
+  replicas: 2  # we want 2 replicas to be deployed
   selector:
-    matchLabels:
+    matchLabels:  # determines which pods are part of the deployment
       app: auth
-  strategy:
+  strategy:  # deployment strategy to use to replace existing pods with new ones
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 3
-  template:
+      maxSurge: 3  # max number of pods that can be scheduled above the desired number of pods
+  template:  # describes the pods that will be created
     metadata:
-      labels:
+      labels:  # pods will be marked with this label - needed for 'selector'
         app: auth
-    spec:
+    spec:  # what state we desire for the object - its precise format is different for every Kubernetes object
       containers:
         - name: auth
-          image: 041349323356667/auth
+          image: 041349323356667/auth  # image to be pulled from the Docker registry
           ports:
-            - containerPort: 5000
-          envFrom:
-            - configMapRef:
+            - containerPort: 5000  # similar to EXPOSE instruction in Dockerfile - primarily informational - not specifying a port here doesn't prevent it from being exposed
+
+          envFrom:  # list of sources to populate environment variables in the container
+            - configMapRef:  # env variables excluding those representing sensitive data
                 name: auth-configmap
-            - secretRef:
+            - secretRef:  # env variables representing sensitive data
                 name: auth-secret

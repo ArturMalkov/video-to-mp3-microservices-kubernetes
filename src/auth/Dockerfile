@@ -15,6 +15,7 @@ RUN pip install --no-cache-dir --requirement /app/requirements.txt
 COPY . /app
 
 # doesn't do much - rather serves as a documentation to a developer who builds this image - it lets him/her know what port is intended to be published
+# not specifying a port here doesn't prevent it from being exposed
 EXPOSE 5000
 
 # used to run the container (i.e. sets the command to be executed when running the image)
