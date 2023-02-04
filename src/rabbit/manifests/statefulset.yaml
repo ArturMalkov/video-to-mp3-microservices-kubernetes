@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: rabbitmq
+spec:
+  serviceName: "not-applicable"  # we won't use this
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:  # template for our pods
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:  # pod spec
+      containers:
+        - name: rabbitmq
+          image: rabbitmq:3-management  # with web interface provided
+          ports:
+            - name: http  # port to access the web interface (rabbitmq-management)
+              protocol: TCP
+              containerPort: 15672
+            - name: amqp  # port that handles actual messages
+              protocol: TCP
+              containerPort: 5672
+          envFrom:
+            - configMapRef:
+                name: rabbitmq-configmap
+            - secretRef:
+                name: rabbitmq-secret
+          volumeMounts:
+            - mountPath: "/var/lib/rabbitmq"  # where in our container we want the physical storage volume to mount to - this is where RabbitMQ will store queues when we create a durable queue and messages when we configure them to be persistent
+              name: rabbitmq-volume
+      volumes:  # configuration of the physical volume to be mounted to the container
+        - name: rabbitmq-volume
+          persistentVolumeClaim:  # links this statefulset to the persistent volume claim
+            claimName: rabbitmq-pvc  # pvc (persistent volume claim) is going to be bound to a persistent volume;
+            # within the configuration for the persistent volume claim, we'll set how much storage we want to make available to it from the persistent volume
+            # and the persistent volume will actually be what interacts with the actual physical storage
