@@ -18,7 +18,7 @@ def upload(file, grid_fs, channel, access):
 
     # message to put onto the message queue
     message = {
-        "video_file_id": str(file_id),
+        "video_file_id": str(file_id),  # since file_id is returned as ObjectID
         "mp3_file_id": None,
         "username": access["username"],
     }
