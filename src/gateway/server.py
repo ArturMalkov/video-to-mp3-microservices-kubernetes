@@ -21,7 +21,7 @@ connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq"))  # t
 channel = connection.channel()
 
 
-@server.route("/", methods=["POST"])
+@server.route("/login", methods=["POST"])
 def login():
     """
     Communicates with auth service to log a user in and assign a JWT to that user.

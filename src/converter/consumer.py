@@ -20,7 +20,7 @@ def main():
     fs_mp3s = gridfs.GridFS(db_mp3s)
 
     # RabbitMQ connection
-    connection = pika.BlockConnection(
+    connection = pika.BlockingConnection(
         parameters=pika.ConnectionParameters(host="rabbitmq")  # our service name will resolve to the host IP for RabbitMQ service
     )
     channel = connection.channel()
