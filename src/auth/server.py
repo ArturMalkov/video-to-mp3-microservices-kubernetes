@@ -11,7 +11,7 @@ mysql = MySQL(server)
 
 # config
 server.config["MYSQL_HOST"] = os.environ.get("MYSQL_HOST")
-server.config["MYSQL_PORT"] = os.environ.get("MYSQL_PORT")
+server.config["MYSQL_PORT"] = int(os.environ.get("MYSQL_PORT"))
 server.config["MYSQL_USER"] = os.environ.get("MYSQL_USER")
 server.config["MYSQL_PASSWORD"] = os.environ.get("MYSQL_PASSWORD")
 server.config["MYSQL_DB"] = os.environ.get("MYSQL_DB")
@@ -29,7 +29,7 @@ def login():
     # check db for username and password
     cursor = mysql.connection.cursor()
     users_list = cursor.execute(
-        "SELECT email, password FROM user WHERE email=%", (auth.username,)
+        "SELECT email, password FROM user WHERE email=%s", (auth.username,)
     )
 
     if users_list > 0:
@@ -75,7 +75,7 @@ def validate():
 
 def create_JWT(username, secret, authz):  # authz is a boolean value telling us whether the user is an admin or not
     return jwt.encode(
-        payload={
+        {
             "username": username,
             "exp": datetime.datetime.now(tz=datetime.timezone.utc)
                    + datetime.timedelta(days=1),
