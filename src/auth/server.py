@@ -29,12 +29,13 @@ def login():
     # check db for username and password
     cursor = mysql.connection.cursor()
     users_list = cursor.execute(
-        "SELECT email, password FROM user WHERE email=?", (auth.username,)
+        "SELECT email, password FROM user WHERE email=%", (auth.username,)
     )
 
-    if len(users_list) > 0:
+    if users_list > 0:
         user_row = cursor.fetchone()
-        email, password = user_row
+        email = user_row[0]
+        password = user_row[1]
 
         if auth.username != email or auth.password != password:
             return "invalid credentials", 401
