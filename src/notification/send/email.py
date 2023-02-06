@@ -19,7 +19,7 @@ def notify(message):
         message_to_send["To"] = recipient_address
 
         # create SMTP session for sending email
-        session = smtplib.SMTP("smtp.gmail.com")
+        session = smtplib.SMTP("smtp.gmail.com", 587)
         session.starttls()  # to make sure our connection to SMTP server is encrypted
         session.login(sender_address, sender_password)
         session.send_message(message_to_send, sender_address, recipient_address)
